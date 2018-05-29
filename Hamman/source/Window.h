@@ -6,22 +6,36 @@
 class Window
 {
 public:
+
 	Window(void) = default;
+
 public:
-	void WindowConfig(sf::RenderWindow & _window);
+
 	void Run(void);
+
+private:
+
+	void DefineWindowShape(sf::RenderWindow & _window);
+
+private:
+
+	void WindowConfig(sf::RenderWindow & _window);
+	void ResourceConfig(void);
+
+	void EventHandle(sf::RenderWindow & _window);
+
+private:
+
 	void Update(sf::RenderWindow & _window);
 	void Clear(sf::RenderWindow & _window);
 	void Draw(sf::RenderWindow & _window);
 	void Display(sf::RenderWindow & _window);
 
-public:
-	void EventHandle(sf::RenderWindow & _window);
+private:
 
-private:
-	void DefineWindowShape(sf::RenderWindow & _window);
-private:
 	std::string title = "Hamman Forever!";
+	std::vector<std::string> resourcePath;
+	size_t resourceIndex;
+	float hammanScale;
 	Hamman hamman;
 };
-

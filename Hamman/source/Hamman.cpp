@@ -8,7 +8,7 @@ Hamman::Hamman(void)
 	{
 		sprite.setTexture(texture);
 		sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
-		sprite.setScale(sf::Vector2f(0.5, 0.5));
+		sprite.setScale(sf::Vector2f(1, 1));
 		sprite.setPosition(windowWidth / 2, windowHight / 2);
 	}
 }
@@ -20,8 +20,7 @@ void Hamman::ChangeCharactor(const std::string & path)
 	else
 	{
 		sprite.setTexture(texture);
-		sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
-		sprite.setScale(sf::Vector2f(0.5, 0.5));
+		sprite.setScale(sf::Vector2f(1, 1));
 		sprite.setPosition(windowWidth / 2, windowHight / 2);
 	}
 }

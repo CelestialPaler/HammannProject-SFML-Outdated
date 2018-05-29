@@ -4,6 +4,7 @@ void Window::Run(void)
 {
 	sf::RenderWindow window(sf::VideoMode(windowWidth, windowHight), title, sf::Style::None);
 	WindowConfig(window);
+	ResourceConfig();
 
 	// DefineWindowShape(window);
 
@@ -20,6 +21,7 @@ void Window::Run(void)
 void Window::Update(sf::RenderWindow & _window)
 {
 	hamman.Update();
+	hamman.sprite.setScale(sf::Vector2f(hammanScale, hammanScale));
 }
 
 void Window::Draw(sf::RenderWindow & _window)
@@ -50,6 +52,14 @@ void Window::WindowConfig(sf::RenderWindow & _window)
 	DwmExtendFrameIntoClientArea(hwnd, &margins);
 }
 
+void Window::ResourceConfig(void)
+{
+	resourceIndex = 0;
+	resourcePath.push_back(hammanTexturePath1);
+	resourcePath.push_back(hammanTexturePath2);
+	hammanScale = 0.5;
+}
+
 void Window::EventHandle(sf::RenderWindow & _window)
 {
 	static sf::Vector2i grabOffset;
@@ -70,6 +80,12 @@ void Window::EventHandle(sf::RenderWindow & _window)
 					grabOffset = _window.getPosition() - sf::Mouse::getPosition();
 					grabFlag = true;
 				}
+				if (evt.mouseButton.button == sf::Mouse::Right)
+				{
+					resourceIndex++;
+					if (resourceIndex == resourcePath.size()) resourceIndex = 0;
+					hamman.ChangeCharactor(resourcePath.at(resourceIndex));
+				}
 			}
 			else if (evt.type == sf::Event::MouseButtonReleased)
 			{
@@ -81,16 +97,17 @@ void Window::EventHandle(sf::RenderWindow & _window)
 				if (grabFlag)
 					_window.setPosition(sf::Mouse::getPosition() + grabOffset);
 			}
-		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LAlt))
-		{
-			if (evt.type == sf::Event::MouseButtonPressed)
+			if (evt.type == sf::Event::MouseWheelScrolled)
 			{
-				if (evt.mouseButton.button == sf::Mouse::Right)
-				{
-					hamman.ChangeCharactor();
-				}
+				if (evt.mouseWheel.x > 0)
+					if (hammanScale <scaleMax)
+						hammanScale += 0.05;
+
+				if (evt.mouseWheel.x < 0)
+					if (hammanScale > scaleMin)
+						hammanScale -= 0.05;
+				hamman.sprite.setScale(sf::Vector2f(hammanScale, hammanScale));
 			}
 		}
 	}
@@ -123,7 +140,7 @@ void Window::DefineWindowShape(sf::RenderWindow & _window)
 
 				if (xLeft != xRight)
 				{
-					tempRgn = CreateRectRgn(xLeft, y, xRight, y + 1);
+					tempRgn = CreateRectRgn(xLeft, y - 25, xRight, y + 25);
 					CombineRgn(wndRgn, wndRgn, tempRgn, RGN_OR);
 					DeleteObject(tempRgn);
 				}

@@ -18,9 +18,12 @@
 #include <shlobj.h>
 #include <Windows.h>
 
-static const unsigned int windowHight = 280;
-static const unsigned int windowWidth = 190;
+static const unsigned int windowHight = 550;
+static const unsigned int windowWidth = 400;
 static const std::string hammanTexturePath1 = "resource\\hamman_g.png";
 static const std::string hammanTexturePath2 = "resource\\hamman_d.png";
+
+static const float scaleMax = 0.5;
+static const float scaleMin = 0.2;
 
 #pragma comment (lib, "Dwmapi.lib")
