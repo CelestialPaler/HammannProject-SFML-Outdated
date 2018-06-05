@@ -3,7 +3,7 @@
 void Window::Run(void)
 {
 	sf::RenderWindow window(sf::VideoMode(windowWidth, windowHight), title, sf::Style::None);
-	WindowConfig(window);
+	// WindowConfig(window);
 	ResourceConfig();
 
 	// DefineWindowShape(window);
@@ -21,7 +21,6 @@ void Window::Run(void)
 void Window::Update(sf::RenderWindow & _window)
 {
 	hamman.Update();
-	hamman.sprite.setScale(sf::Vector2f(hammanScale, hammanScale));
 }
 
 void Window::Draw(sf::RenderWindow & _window)
@@ -58,6 +57,7 @@ void Window::ResourceConfig(void)
 	resourcePath.push_back(hammanTexturePath1);
 	resourcePath.push_back(hammanTexturePath2);
 	hammanScale = 0.5;
+	hamman.sprite.setScale(sf::Vector2f(hammanScale, hammanScale));
 }
 
 void Window::EventHandle(sf::RenderWindow & _window)
@@ -107,6 +107,7 @@ void Window::EventHandle(sf::RenderWindow & _window)
 				if (evt.mouseWheel.x < 0)
 					if (hammanScale > scaleMin)
 						hammanScale -= 0.05;
+				_window.setSize(sf::Vector2u(windowWidth*(hammanScale + 0.5), windowHight*(hammanScale + 0.5)));
 				hamman.sprite.setScale(sf::Vector2f(hammanScale, hammanScale));
 			}
 		}
