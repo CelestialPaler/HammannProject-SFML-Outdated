@@ -3,10 +3,10 @@
 void Window::Run(void)
 {
 	sf::RenderWindow window(sf::VideoMode(windowWidth, windowHight), title, sf::Style::None);
-	// WindowConfig(window);
+	WindowConfig(window);
 	ResourceConfig();
 
-	// DefineWindowShape(window);
+	DefineWindowShape(window);
 
 	while (window.isOpen())
 	{
@@ -118,38 +118,43 @@ void Window::DefineWindowShape(sf::RenderWindow & _window)
 {
 	for (size_t i = 0; i < 2; i++)
 	{
+		EventHandle(_window);
+		Update(_window);
 		Clear(_window);
 		Draw(_window);
 		Display(_window);
-		HRGN wndRgn = CreateRectRgn(0, 0, 0, 0);
-		HWND hwnd = _window.getSystemHandle();
-		sf::Image img = _window.capture();
-		for (unsigned int y = 0; y < img.getSize().y; y++)
+	}
+
+	HRGN wndRgn = CreateRectRgn(0, 0, 0, 0);
+	HWND hwnd = _window.getSystemHandle();
+	sf::Image img = _window.capture();
+	for (unsigned int y = 0; y < img.getSize().y; y++)
+	{
+		unsigned int xIndex = 0;
+		while (xIndex < img.getSize().x)
 		{
-			unsigned int xIndex = 0;
-			while (xIndex < img.getSize().x)
+			HRGN tempRgn;
+			int  xLeft = 0, xRight = 0;
+			while ((xIndex < img.getSize().x) && (img.getPixel(xIndex, y) == sf::Color::Transparent))
+				xIndex++;
+			xLeft = xIndex;
+
+			while ((xIndex < img.getSize().x) && (img.getPixel(xIndex, y) != sf::Color::Transparent))
+				xIndex++;
+			xRight = xIndex;
+
+			if (xLeft != xRight)
 			{
-				HRGN tempRgn;
-				int  xLeft = 0, xRight = 0;
-				while ((xIndex < img.getSize().x) && (img.getPixel(xIndex, y) == sf::Color::Transparent))
-					xIndex++;
-				xLeft = xIndex;
-
-				while ((xIndex < img.getSize().x) && (img.getPixel(xIndex, y) != sf::Color::Transparent))
-					xIndex++;
-				xRight = xIndex;
-
-				if (xLeft != xRight)
-				{
-					tempRgn = CreateRectRgn(xLeft, y - 25, xRight, y + 25);
-					CombineRgn(wndRgn, wndRgn, tempRgn, RGN_OR);
-					DeleteObject(tempRgn);
-				}
+				tempRgn = CreateRectRgn(xLeft, y - 2, xRight, y + 2);
+				CombineRgn(wndRgn, wndRgn, tempRgn, RGN_OR);
+				DeleteObject(tempRgn);
 			}
 		}
-		SetWindowRgn(hwnd, wndRgn, TRUE);
-		if (wndRgn != NULL) 
-			DeleteObject(wndRgn);
 	}
+
+	img.saveToFile("temp.png");
+	SetWindowRgn(hwnd, wndRgn, TRUE);
+	if (wndRgn != NULL)
+		DeleteObject(wndRgn);
 }
 
