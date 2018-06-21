@@ -22,7 +22,6 @@
 </div>
 <div>
     <p>&nbsp;&nbsp;&nbsp;&nbsp;谁敢反对我哈曼,我就打爆他的狗头!</p>
- 
     <p>For more information, check my website.
     <a href="www.tianshicangxie.com" target="_blank">Celestial Tech</a></p>
 </div>
