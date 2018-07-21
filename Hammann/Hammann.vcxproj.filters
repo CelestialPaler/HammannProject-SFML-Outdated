@@ -25,21 +25,24 @@
     <ClCompile Include="source\main.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="source\Hamman.cpp">
+    <ClCompile Include="source\Window.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="source\Window.cpp">
+    <ClCompile Include="source\Hammann.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\Hamman.h">
-      <Filter>source</Filter>
-    </ClInclude>
     <ClInclude Include="source\Config.hpp">
       <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="source\Window.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Hammann.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Resource.h">
       <Filter>source</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Config.hpp"
-#include "Hamman.h"
+#include "Hammann.h"
 
 class Window
 {
@@ -33,9 +33,9 @@ private:
 
 private:
 
-	std::string title = "Hamman Forever!";
+	std::string title = "Hammann Forever!";
 	std::vector<std::string> resourcePath;
 	size_t resourceIndex;
-	float hammanScale;
-	Hamman hamman;
+	float HammannScale;
+	Hammann Hammann;
 };

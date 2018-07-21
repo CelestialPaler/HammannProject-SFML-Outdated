@@ -20,12 +20,12 @@ void Window::Run(void)
 
 void Window::Update(sf::RenderWindow & _window)
 {
-	hamman.Update();
+	//Hammann.Update();
 }
 
 void Window::Draw(sf::RenderWindow & _window)
 {
-	_window.draw(hamman.sprite);
+	_window.draw(Hammann.sprite);
 }
 
 void Window::Clear(sf::RenderWindow & _window)
@@ -43,21 +43,21 @@ void Window::WindowConfig(sf::RenderWindow & _window)
 	_window.setFramerateLimit(60);
 
 	HWND hwnd = _window.getSystemHandle();
-	SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, WS_EX_TOOLWINDOW | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+	SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
 	MARGINS margins;
 	margins.cxLeftWidth = -1;
-	SetWindowLong(hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE);
+	SetWindowLong(hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE | WS_EX_TOOLWINDOW);
 	DwmExtendFrameIntoClientArea(hwnd, &margins);
 }
 
 void Window::ResourceConfig(void)
 {
 	resourceIndex = 0;
-	resourcePath.push_back(hammanTexturePath1);
-	resourcePath.push_back(hammanTexturePath2);
-	hammanScale = 0.5;
-	hamman.sprite.setScale(sf::Vector2f(hammanScale, hammanScale));
+	resourcePath.push_back(HammannTexturePath1);
+	resourcePath.push_back(HammannTexturePath2);
+	HammannScale = 0.5;
+	Hammann.sprite.setScale(sf::Vector2f(HammannScale, HammannScale));
 }
 
 void Window::EventHandle(sf::RenderWindow & _window)
@@ -84,7 +84,7 @@ void Window::EventHandle(sf::RenderWindow & _window)
 				{
 					resourceIndex++;
 					if (resourceIndex == resourcePath.size()) resourceIndex = 0;
-					hamman.ChangeCharactor(resourcePath.at(resourceIndex));
+					Hammann.ChangeCharactor(resourcePath.at(resourceIndex));
 				}
 			}
 			else if (evt.type == sf::Event::MouseButtonReleased)
@@ -101,14 +101,14 @@ void Window::EventHandle(sf::RenderWindow & _window)
 			if (evt.type == sf::Event::MouseWheelScrolled)
 			{
 				if (evt.mouseWheel.x > 0)
-					if (hammanScale <scaleMax)
-						hammanScale += 0.05;
+					if (HammannScale <scaleMax)
+						HammannScale += 0.05;
 
 				if (evt.mouseWheel.x < 0)
-					if (hammanScale > scaleMin)
-						hammanScale -= 0.05;
-				_window.setSize(sf::Vector2u(windowWidth*(hammanScale + 0.5), windowHight*(hammanScale + 0.5)));
-				hamman.sprite.setScale(sf::Vector2f(hammanScale, hammanScale));
+					if (HammannScale > scaleMin)
+						HammannScale -= 0.05;
+				_window.setSize(sf::Vector2u(windowWidth*(HammannScale + 0.5), windowHight*(HammannScale + 0.5)));
+				Hammann.sprite.setScale(sf::Vector2f(HammannScale, HammannScale));
 			}
 		}
 	}
@@ -118,7 +118,6 @@ void Window::DefineWindowShape(sf::RenderWindow & _window)
 {
 	for (size_t i = 0; i < 2; i++)
 	{
-		EventHandle(_window);
 		Update(_window);
 		Clear(_window);
 		Draw(_window);
@@ -145,14 +144,13 @@ void Window::DefineWindowShape(sf::RenderWindow & _window)
 
 			if (xLeft != xRight)
 			{
-				tempRgn = CreateRectRgn(xLeft, y - 2, xRight, y + 2);
+				tempRgn = CreateRectRgn(xLeft, y - 10, xRight, y + 10);
 				CombineRgn(wndRgn, wndRgn, tempRgn, RGN_OR);
 				DeleteObject(tempRgn);
 			}
 		}
 	}
 
-	img.saveToFile("temp.png");
 	SetWindowRgn(hwnd, wndRgn, TRUE);
 	if (wndRgn != NULL)
 		DeleteObject(wndRgn);
