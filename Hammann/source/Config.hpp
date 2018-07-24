@@ -22,9 +22,10 @@
 
 static const unsigned int windowHight = 550;
 static const unsigned int windowWidth = 400;
-static const std::string HammannTexturePath1 = "resource\\hammann_g.png";
+static const std::string HammannTexturePath1 = "resource\\textures\\hammann_g.png";
 static const std::string HammannTexturePath2 = "resource\\hammann_d.png";
 static const std::string HammannAudioPath1 = "resource\\hammann_login.ogg";
+static const std::string ResourcePathRoot = "resource";
 
 static const float scaleMax = 0.5;
 static const float scaleMin = 0.2;

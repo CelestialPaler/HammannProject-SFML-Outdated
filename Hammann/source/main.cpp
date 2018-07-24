@@ -7,20 +7,24 @@
 
 #include "Config.hpp"
 #include "Window.h"
+#include "Resource.h"
 
 // Entry point for Debug mode.
 int main()
 {
-	Window window;
-	sf::Thread windowRender(&Window::Run, &window);
-	windowRender.launch();
+	//Window window;
+	//sf::Thread windowRender(&Window::Run, &window);
+	//windowRender.launch();
 
-	sf::SoundBuffer buffer;
-	if (!buffer.loadFromFile(HammannAudioPath1))
-		return -1;
-	sf::Sound test;
-	test.setBuffer(buffer);
-	test.play();
+	//sf::SoundBuffer buffer;
+	//if (!buffer.loadFromFile(HammannAudioPath1))
+	//	return -1;
+	//sf::Sound test;
+	//test.setBuffer(buffer);
+	//test.play();
+	ResourceManager testManager;
+	testManager.Init();
+	
 	system("pause");
 	return 0;
 }

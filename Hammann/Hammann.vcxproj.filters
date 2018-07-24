@@ -31,6 +31,9 @@
     <ClCompile Include="source\Hammann.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="source\Resource.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Config.hpp">
@@ -45,5 +48,10 @@
     <ClInclude Include="source\Resource.h">
       <Filter>source</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source\README.md">
+      <Filter>source</Filter>
+    </None>
   </ItemGroup>
 </Project>

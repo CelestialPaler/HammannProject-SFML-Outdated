@@ -8,15 +8,17 @@
 
 Hammann::Hammann(void)
 {
-	if (!texture.loadFromFile(HammannTexturePath2))
+	ResourceManager testManager;
+
+	sf::Texture tempTexture;
+	std::cout << testManager.GetTexturePath("hammann_g.png") << std::endl;
+	if (!tempTexture.loadFromFile(HammannTexturePath1))
 		std::cerr << "ERROR : Resource not found!" << std::endl;
-	else
-	{
-		sprite.setTexture(texture);
-		sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
-		sprite.setScale(sf::Vector2f(1, 1));
-		sprite.setPosition(windowWidth / 2, windowHight / 2);
-	}
+
+	sprite.setTexture(tempTexture);
+	sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
+	sprite.setScale(sf::Vector2f(1, 1));
+	sprite.setPosition(windowWidth / 2, windowHight / 2);
 }
 
 void Hammann::ChangeCharactor(const std::string & path)

@@ -19,34 +19,27 @@ public:
 
 public:
 
+	// Init all the resources.
+	void Init(void);
+	// Query the path of required texture.
+	const std::string & GetTexturePath(const std::string & name) const { return textures.find(name)->second; }
 
 private:
 
-	void GetResourcesPath(std::string path, std::vector<std::string>& files) const
-	{
-		// Debug Info
-		std::cout << "=> Loading resources" << std::endl;
-		// Create a handle of file
-		intptr_t  hFile;
-		// Struct for save infomation of files
-		struct _finddata_t fileinfo;
-		std::string p;
-		if ((hFile = _findfirst(p.assign(path).append("\\*").c_str(), &fileinfo)) != -1)
-		{
-			do
-			{
-				if (!(fileinfo.attrib &  _A_SUBDIR))
-					files.push_back(fileinfo.name);
-			} while (!_findnext(hFile, &fileinfo));
-			_findclose(hFile);
-		}
-	}
+	// Load all the resources.
+	void LoadResources(void);
+	// Check the integrality of the resources.
+	bool IntegralityCheck(void);
+	// Get paths of all the resources in the target folder.
+	void GetResourcesPaths(std::string path, std::vector<std::string>& files) const;
+	// Print all the resources for debugging.
+	void PrintAllResources(void) const;
 
 private:
 
-	std::map<std::string, sf::Texture> textures;
-	std::map<std::string, sf::Sound> sounds;
-	std::map<std::string, sf::Music> musics;
+	std::map<std::string, std::string> textures;
+	std::map<std::string, std::string> sounds;
+	std::map<std::string, std::string> texts;
 };
 
 
