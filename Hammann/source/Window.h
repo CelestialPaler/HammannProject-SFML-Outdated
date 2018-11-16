@@ -1,3 +1,9 @@
+/*
+	Project Name : Hammann Project
+
+	Copyright © 2015-2018 Celestial Tech Inc.     
+*/                                     
+
 #pragma once
 
 #include "Config.hpp"
@@ -16,13 +22,12 @@ public:
 private:
 
 	void DefineWindowShape(sf::RenderWindow & _window);
+	void RefreshShape(sf::RenderWindow & _window);
 
 private:
 
 	void WindowConfig(sf::RenderWindow & _window);
 	void ResourceConfig(void);
-
-	void EventHandle(sf::RenderWindow & _window);
 
 private:
 
@@ -30,12 +35,12 @@ private:
 	void Clear(sf::RenderWindow & _window);
 	void Draw(sf::RenderWindow & _window);
 	void Display(sf::RenderWindow & _window);
+	void EventHandle(sf::RenderWindow & _window);
 
 private:
 
 	std::string title = "Hammann Forever!";
 	std::vector<std::string> resourcePath;
-	size_t resourceIndex;
-	float HammannScale;
 	Hammann Hammann;
+	ResourceManager ResourceManager;
 };

@@ -11,6 +11,7 @@
 
 /***************************************************************************************************/
 // Class : Resource Manager
+// Manage all the resources. Run intagrality check at initializing state.
 class ResourceManager
 {
 public:
@@ -41,6 +42,5 @@ private:
 	std::map<std::string, std::string> sounds;
 	std::map<std::string, std::string> texts;
 };
-
 
 

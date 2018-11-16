@@ -1,6 +1,6 @@
 ﻿/***************************************************************************************************/
-/*								        		 		 Hammann Project  														   */
-/*								        		 	           Hammann     															   */
+/*								        		 		   Hammann Project  														   */
+/*								        		 	             Hammann     															   */
 /*                                                    www.tianshicangxie.com                                                       */
 /*                                      Copyright © 2015-2018 Celestial Tech Inc.                                          */
 /***************************************************************************************************/
@@ -22,8 +22,7 @@ public:
 
 public:
 
-	void GetResourcesPath(std::string path, std::vector<std::string>& files) const;
-	void ChangeCharactor(const std::string & path);
+	void SetCharactor(const std::string & path);
 	void Update(void);
 
 private:

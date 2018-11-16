@@ -6,10 +6,9 @@ void Window::Run(void)
 	WindowConfig(window);
 	ResourceConfig();
 
-	DefineWindowShape(window);
-
 	while (window.isOpen())
 	{
+		DefineWindowShape(window);
 		EventHandle(window);
 		Update(window);
 		Clear(window);
@@ -20,7 +19,7 @@ void Window::Run(void)
 
 void Window::Update(sf::RenderWindow & _window)
 {
-	//Hammann.Update();
+	Hammann.Update();
 }
 
 void Window::Draw(sf::RenderWindow & _window)
@@ -53,11 +52,8 @@ void Window::WindowConfig(sf::RenderWindow & _window)
 
 void Window::ResourceConfig(void)
 {
-	resourceIndex = 0;
-	resourcePath.push_back(HammannTexturePath1);
-	resourcePath.push_back(HammannTexturePath2);
-	HammannScale = 0.5;
-	Hammann.sprite.setScale(sf::Vector2f(HammannScale, HammannScale));
+	ResourceManager.Init();
+	Hammann.SetCharactor(ResourceManager.GetTexturePath("hammann_d.png"));
 }
 
 void Window::EventHandle(sf::RenderWindow & _window)
@@ -80,12 +76,6 @@ void Window::EventHandle(sf::RenderWindow & _window)
 					grabOffset = _window.getPosition() - sf::Mouse::getPosition();
 					grabFlag = true;
 				}
-				if (evt.mouseButton.button == sf::Mouse::Right)
-				{
-					resourceIndex++;
-					if (resourceIndex == resourcePath.size()) resourceIndex = 0;
-					Hammann.ChangeCharactor(resourcePath.at(resourceIndex));
-				}
 			}
 			else if (evt.type == sf::Event::MouseButtonReleased)
 			{
@@ -97,32 +87,14 @@ void Window::EventHandle(sf::RenderWindow & _window)
 				if (grabFlag)
 					_window.setPosition(sf::Mouse::getPosition() + grabOffset);
 			}
-
-			if (evt.type == sf::Event::MouseWheelScrolled)
-			{
-				if (evt.mouseWheel.x > 0)
-					if (HammannScale <scaleMax)
-						HammannScale += 0.05;
-
-				if (evt.mouseWheel.x < 0)
-					if (HammannScale > scaleMin)
-						HammannScale -= 0.05;
-				_window.setSize(sf::Vector2u(windowWidth*(HammannScale + 0.5), windowHight*(HammannScale + 0.5)));
-				Hammann.sprite.setScale(sf::Vector2f(HammannScale, HammannScale));
-			}
 		}
 	}
 }
 
 void Window::DefineWindowShape(sf::RenderWindow & _window)
 {
-	for (size_t i = 0; i < 2; i++)
-	{
-		Update(_window);
-		Clear(_window);
-		Draw(_window);
-		Display(_window);
-	}
+	const unsigned int windowShapeOffsetY = 5;
+	const unsigned int windowShapeOffsetX = 2;
 
 	HRGN wndRgn = CreateRectRgn(0, 0, 0, 0);
 	HWND hwnd = _window.getSystemHandle();
@@ -144,15 +116,45 @@ void Window::DefineWindowShape(sf::RenderWindow & _window)
 
 			if (xLeft != xRight)
 			{
-				tempRgn = CreateRectRgn(xLeft, y - 10, xRight, y + 10);
+				tempRgn = CreateRectRgn(xLeft - windowShapeOffsetX,
+															y - windowShapeOffsetY, 
+															xRight + windowShapeOffsetX, 
+															y + windowShapeOffsetY + 1);
 				CombineRgn(wndRgn, wndRgn, tempRgn, RGN_OR);
 				DeleteObject(tempRgn);
 			}
 		}
 	}
-
 	SetWindowRgn(hwnd, wndRgn, TRUE);
 	if (wndRgn != NULL)
 		DeleteObject(wndRgn);
+}
+
+void Window::RefreshShape(sf::RenderWindow & _window)
+{
+	static unsigned int shapeRefreshCounter = 0;
+	static unsigned int shapeRefreshFlag = 0;
+	
+	// Preload some frames to avoid buggy stuff
+	if(false)
+	{
+		for (size_t i = 0; i < 2; i++)
+		{
+			Update(_window);
+			Clear(_window);
+			Draw(_window);
+			Display(_window);
+		}
+	}
+
+	if (shapeRefreshFlag==1)
+	{
+		system("cls");
+		std::cout << "INFO: Window::DefineWindowShape Counter : " << shapeRefreshCounter++ << std::endl;
+		DefineWindowShape(_window);
+	}
+	else if (shapeRefreshFlag==15)
+		shapeRefreshFlag = 0;
+	shapeRefreshFlag++;
 }
 

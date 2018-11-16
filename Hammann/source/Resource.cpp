@@ -76,13 +76,13 @@ void ResourceManager::GetResourcesPaths(std::string path, std::vector<std::strin
 
 void ResourceManager::PrintAllResources(void) const
 {
-	std::cout << "Loading textures" << std::endl;
+	std::cout << "INFO: Loading textures" << std::endl;
 	for (auto name : textures)
 		std::cout << "	" << name.second << std::endl;
-	std::cout << "Loading sounds" << std::endl;
+	std::cout << "INFO: Loading sounds" << std::endl;
 	for (auto name : sounds)
 		std::cout << "	" << name.second << std::endl;
-	std::cout << "Loading texts" << std::endl;
+	std::cout << "INFO: Loading texts" << std::endl;
 	for (auto name : texts)
 		std::cout << "	" << name.second << std::endl;
 }
