@@ -6,16 +6,22 @@
 /***************************************************************************************************/
 
 #include "Config.hpp"
-#include "Window.h"
 #include "Resource.h"
+#include "Logger.h"
 
 // Entry point for Debug mode.
-/*
 int main()
 {
-	Window window;
-	sf::Thread windowRender(&Window::Run, &window);
-	windowRender.launch();
+	Util::Logger * logger = Util::Logger::GetInstance();
+	logger->Start(Util::Logger::DEBUG);
+	logger->Write(Util::Logger::INFO,"Logger initialize OK.");
+
+	Core::ResourceManager * resourceManager = Core::ResourceManager::GetInstance();
+	resourceManager->Initialize();
+
+	//Window window;
+	//sf::Thread windowRender(&Window::Run, &window);
+	//windowRender.launch();
 
 	//sf::SoundBuffer buffer;
 	//if (!buffer.loadFromFile(HammannAudioPath1))
@@ -26,12 +32,12 @@ int main()
 
 	return 0;
 }
-*/
+
 // Entry point for Release mode.
 int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance, LPSTR lpszArgument, int nCmdShow)
 {
-	Window window;
-	sf::Thread windowRender(&Window::Run, &window);
-	windowRender.launch();
+	//Window window;
+	//sf::Thread windowRender(&Window::Run, &window);
+	//windowRender.launch();
 	return 0;
 }

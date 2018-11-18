@@ -28,16 +28,7 @@
     <ClCompile Include="source\main.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="source\Window.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Hammann.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
     <ClCompile Include="source\Resource.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="source\UnitTest.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\Logger.cpp">
@@ -46,12 +37,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Config.hpp">
-      <Filter>source</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Window.h">
-      <Filter>source</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Hammann.h">
       <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="source\Resource.h">

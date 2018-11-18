@@ -6,27 +6,32 @@
 /***************************************************************************************************/
 #include "Resource.h"
 
-ResourceManager::ResourceManager(void)
-{
+std::mutex mutexResource;
+static Core::ResourceManager * instancePointer;
 
+Core::ResourceManager * Core::ResourceManager::GetInstance(void)
+{
+	mutexResource.lock();
+	if (instancePointer == nullptr)
+		instancePointer = new ResourceManager();
+	mutexResource.unlock();
+	return instancePointer;
 }
 
-void ResourceManager::Init(void)
+void Core::ResourceManager::Initialize(void)
 {
+	Util::Logger * logger = Util::Logger::GetInstance();
 	LoadResources();
-	PrintAllResources();
+	if (LogResourceFileDetail)
+		LogDetails();
 
-	if (IntegralityCheck())
-	{
-		std::cout << "INFO: Integrality Check OK!" << std::endl;
-	}
+	if (IntegrityCheck())
+		logger->Write(Util::Logger::INFO, "Resource Integrity Check - OK!");
 	else
-	{
-		std::cout << "ERROR: Integrality Check Failure!" << std::endl;
-	}
+		logger->Write(Util::Logger::WARNING, "Resource Integrity Check - Failed!");
 }
 
-void ResourceManager::LoadResources(void)
+void Core::ResourceManager::LoadResources(void)
 {
 	// Find all the textures
 	std::string texturePath = ResourcePathRoot + "//textures";
@@ -51,12 +56,12 @@ void ResourceManager::LoadResources(void)
 		this->texts.insert(std::pair<std::string, std::string>(name, textPath + "//" + name));
 }
 
-bool ResourceManager::IntegralityCheck(void)
+bool Core::ResourceManager::IntegrityCheck(void) const
 {
 	return true;
 }
 
-void ResourceManager::GetResourcesPaths(std::string path, std::vector<std::string>& files) const
+void Core::ResourceManager::GetResourcesPaths(std::string path, std::vector<std::string>& files) const
 {
 	// Create a handle of file
 	intptr_t  hFile;
@@ -74,15 +79,17 @@ void ResourceManager::GetResourcesPaths(std::string path, std::vector<std::strin
 	}
 }
 
-void ResourceManager::PrintAllResources(void) const
+void Core::ResourceManager::LogDetails(void) const
 {
-	std::cout << "INFO: Loading textures" << std::endl;
+	Util::Logger * logger = Util::Logger::GetInstance();
+
+	logger->Write(Util::Logger::INFO, "Loading textures.");
 	for (auto name : textures)
-		std::cout << "	" << name.second << std::endl;
-	std::cout << "INFO: Loading sounds" << std::endl;
+		logger->Write(Util::Logger::DEBUG, name.second);
+	logger->Write(Util::Logger::INFO, "Loading sounds.");
 	for (auto name : sounds)
-		std::cout << "	" << name.second << std::endl;
-	std::cout << "INFO: Loading texts" << std::endl;
+		logger->Write(Util::Logger::DEBUG, name.second);
+	logger->Write(Util::Logger::INFO, "Loading texts.");
 	for (auto name : texts)
-		std::cout << "	" << name.second << std::endl;
+		logger->Write(Util::Logger::DEBUG, name.second);
 }

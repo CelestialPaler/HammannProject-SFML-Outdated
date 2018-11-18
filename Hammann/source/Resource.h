@@ -7,40 +7,51 @@
 #pragma once
 
 // Header file
+#include <mutex>
 #include "Config.hpp"
+#include "Logger.h"
 
 /***************************************************************************************************/
-// Class : Resource Manager
-// Manage all the resources. Run intagrality check at initializing state.
-class ResourceManager
+// Namespace : Core
+// Core functionality of the program.
+namespace Core
 {
-public:
+	/***************************************************************************************************/
+	// Class : Resource Manager
+	// Manage all the resources. Run integrity check at initializing state.
+	class ResourceManager
+	{
+	public:
+		// Get the pointer of the instance
+		/// Singleton
+		static ResourceManager * GetInstance(void);
+		
+	public:
+		// Init all the resources.
+		void Initialize(void);
+		// Query the path of required texture.
+		const std::string & GetTexturePath(const std::string & name) const { return textures.find(name)->second; }
 
-	ResourceManager(void);
+	private:
+		ResourceManager(void) {}
+		// Refused
+		ResourceManager(const ResourceManager & _rm) = delete;
+		// Refused
+		ResourceManager & operator = (const ResourceManager & _rm) = delete;
 
-public:
+	private:
+		// Load all the resources.
+		void LoadResources(void);
+		// Check the integrality of the resources.
+		bool IntegrityCheck(void) const;
+		// Get paths of all the resources in the target folder.
+		void GetResourcesPaths(std::string path, std::vector<std::string>& files) const;
+		// Log all the details of resources for debugging.
+		void LogDetails(void) const;
 
-	// Init all the resources.
-	void Init(void);
-	// Query the path of required texture.
-	const std::string & GetTexturePath(const std::string & name) const { return textures.find(name)->second; }
-
-private:
-
-	// Load all the resources.
-	void LoadResources(void);
-	// Check the integrality of the resources.
-	bool IntegralityCheck(void);
-	// Get paths of all the resources in the target folder.
-	void GetResourcesPaths(std::string path, std::vector<std::string>& files) const;
-	// Print all the resources for debugging.
-	void PrintAllResources(void) const;
-
-private:
-
-	std::map<std::string, std::string> textures;
-	std::map<std::string, std::string> sounds;
-	std::map<std::string, std::string> texts;
-};
-
-
+	private:
+		std::map<std::string, std::string> textures;
+		std::map<std::string, std::string> sounds;
+		std::map<std::string, std::string> texts;
+	};
+}

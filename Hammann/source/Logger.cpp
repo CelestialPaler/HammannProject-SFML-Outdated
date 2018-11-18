@@ -6,21 +6,19 @@
 /***************************************************************************************************/
 #include "Logger.h"
 
-std::mutex multithreadMutex;
+std::mutex mutexLogger;
 static Util::Logger * instancePointer;
 
-Util::Logger * Util::Logger::getInstance(void)
+Util::Logger * Util::Logger::GetInstance(void)
 {
+	mutexLogger.lock();
 	if (instancePointer == nullptr)
-	{
-		multithreadMutex.lock();
 		instancePointer = new Logger();
-		multithreadMutex.unlock();
-	}
+	mutexLogger.unlock();
 	return instancePointer;
 }
 
-void Util::Logger::Start(Priority _priorityThreshold = WARNING, const std::string& _logFile = "")
+void Util::Logger::Start(Priority _priorityThreshold, const std::string& _logFile)
 {
 	instancePointer->activated = true;
 	instancePointer->priorityThreshold = _priorityThreshold;
@@ -35,11 +33,24 @@ void Util::Logger::Stop(void)
 		instancePointer->logFileStream.close();
 }
 
-void Util::Logger::Write(Priority _priority = DEBUG, const std::string& _message = "Default Message")
+void Util::Logger::Write(Priority _priority, const std::string& _message)
 {
 	if (instancePointer->activated && _priority >= instancePointer->priorityThreshold)
 	{
 		std::ostream & stream = instancePointer->logFileStream.is_open() ? instancePointer->logFileStream : std::cout;
-		stream << instancePointer->priorityNames[_priority] << " : " << _message << std::endl;
+		stream << instancePointer->GetCurrentSystemTime() << "  " 
+			<< instancePointer->priorityNames[_priority] << " : " 
+			<< _message << std::endl;
 	}
+}
+
+const std::string Util::Logger::GetCurrentSystemTime() const
+{
+	__time64_t sysTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+	struct tm * pTime = localtime(&sysTime);
+	char timeInString[60] = { 0 };
+	sprintf(timeInString, "%d-%02d-%02d %02d:%02d:%02d",
+		(int)pTime->tm_year + 1900, (int)pTime->tm_mon + 1, (int)pTime->tm_mday,
+		(int)pTime->tm_hour, (int)pTime->tm_min, (int)pTime->tm_sec);
+	return std::string(timeInString);
 }

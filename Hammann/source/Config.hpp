@@ -27,6 +27,8 @@ static const std::string HammannTexturePath2 = "resource\\hammann_d.png";
 static const std::string HammannAudioPath1 = "resource\\hammann_login.ogg";
 static const std::string ResourcePathRoot = "resource";
 
+static const bool LogResourceFileDetail = true;
+
 static const float scaleMax = 0.5;
 static const float scaleMin = 0.2;
 

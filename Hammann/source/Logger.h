@@ -13,6 +13,8 @@
 #include <iostream>
 #include <chrono>
 
+#include "Config.hpp"
+
 /***************************************************************************************************/
 // Namespace : Util
 // Basic utilities for all kinds of uses.
@@ -20,7 +22,7 @@ namespace Util
 {
 	/***************************************************************************************************/
 	// Class : Logger
-	// Implemented in a style of singleton with multithread securety.
+	// Implemented in a style of singleton with multithread security.
 	// Do the logging thingy ... 
 	class Logger
 	{
@@ -38,7 +40,7 @@ namespace Util
 	public:
 		// Get the pointer of the instance
 		/// Singleton
-		static Logger * getInstance(void);
+		static Logger * GetInstance(void);
 
 	public:
 		// Start the logger
@@ -51,16 +53,20 @@ namespace Util
 		static void Write(Priority _priority = DEBUG, const std::string& _message = "Default Message");
 
 	private:
-
 		Logger(void) {}
-		Logger(const Logger & _logger) {}
-		Logger & operator = (const Logger & _logger) {}
+		// Refused
+		Logger(const Logger & _logger) = delete;
+		// Refused
+		Logger & operator = (const Logger & _logger) = delete;
+
+		const std::string GetCurrentSystemTime() const;
 
 	private:
-
 		bool activated;
 		std::ofstream logFileStream;
 		Priority priorityThreshold;
+
+	private:
 		const std::string priorityNames[4] =
 		{
 			"DEBUG",

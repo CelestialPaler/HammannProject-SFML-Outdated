@@ -6,15 +6,15 @@ void Window::Run(void)
 	WindowConfig(window);
 	ResourceConfig();
 
-	while (window.isOpen())
-	{
-		DefineWindowShape(window);
-		EventHandle(window);
-		Update(window);
-		Clear(window);
-		Draw(window);
-		Display(window);
-	}
+	//while (window.isOpen())
+	//{
+	//	DefineWindowShape(window);
+	//	EventHandle(window);
+	//	Update(window);
+	//	Clear(window);
+	//	Draw(window);
+	//	Display(window);
+	//}
 }
 
 void Window::Update(sf::RenderWindow & _window)
