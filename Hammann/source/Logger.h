@@ -14,6 +14,7 @@
 #include <chrono>
 
 #include "Config.hpp"
+#include "ConsoleColor.h"
 
 /***************************************************************************************************/
 // Namespace : Util
@@ -76,3 +77,5 @@ namespace Util
 		};
 	};
 }
+
+

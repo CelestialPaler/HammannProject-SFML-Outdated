@@ -58,7 +58,7 @@ void Core::ResourceManager::LoadResources(void)
 
 bool Core::ResourceManager::IntegrityCheck(void) const
 {
-	return true;
+	return false;
 }
 
 void Core::ResourceManager::GetResourcesPaths(std::string path, std::vector<std::string>& files) const
